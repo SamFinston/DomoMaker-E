@@ -68,9 +68,7 @@ const getHandsome = (request, response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error has occured' });
     }
-
     // console.dir(docs[0]._doc.name);
-
     return res.json({ domos: docs });
   });
 };
