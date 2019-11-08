@@ -69,12 +69,14 @@ const ageDomo = (request, response) => {
       return res.status(400).json({ error: 'An error has occured' });
     }
 
-    let obj = docs;
+    const obj = docs;
     console.dir(obj);
     obj.age = obj.age + 1;
     const promise = docs.save();
     promise.then(() => res.json({ status: 'OK' }));
-    promise.catch(() => {res.status(400).json({ error: 'An error has occured' } )});
+    promise.catch(() => { res.status(400).json({ error: 'An error has occured' }); });
+
+    return promise;
   });
 };
 

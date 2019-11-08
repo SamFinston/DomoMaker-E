@@ -66,10 +66,10 @@ DomoSchema.statics.findByName = (ownerId, name, callback) => {
 DomoSchema.statics.incrementAge = (ownerId, name, callback) => {
   const search = {
     owner: convertId(ownerId),
-    name: name,
+    name,
   };
 
-  return DomoModel.findOne(search).exec(callback); 
+  return DomoModel.findOne(search).exec(callback);
 };
 
 DomoModel = mongoose.model('Domo', DomoSchema);

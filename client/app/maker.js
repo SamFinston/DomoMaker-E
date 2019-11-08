@@ -90,7 +90,6 @@ const setup = function(csrf) {
 
 const ageDomo = (name, csrf) => {
     sendAjax('POST', `/ageDomo?_csrf=${csrf}`, {name: name}, (data) => {
-
         loadDomosFromServer(csrf);
     });
 };

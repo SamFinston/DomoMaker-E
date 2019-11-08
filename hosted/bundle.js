@@ -124,7 +124,6 @@ var setup = function setup(csrf) {
 
 var ageDomo = function ageDomo(name, csrf) {
     sendAjax('POST', "/ageDomo?_csrf=" + csrf, { name: name }, function (data) {
-
         loadDomosFromServer(csrf);
     });
 };
