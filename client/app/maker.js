@@ -1,4 +1,4 @@
-const handleDomo = (e) => {
+const handleDomo = (e, csrf) => {
     e.preventDefault();
 
     $("#domoMessage").animate({ width: 'hide' }, 350);
@@ -10,7 +10,7 @@ const handleDomo = (e) => {
     }
 
     sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-        loadDomosFromServer();
+        loadDomosFromServer(csrf);
     });
 
     return false;
@@ -19,7 +19,7 @@ const handleDomo = (e) => {
 const DomoForm = (props) => {
     return (
         <form id="domoForm"
-            onSubmit={handleDomo}
+            onSubmit={(e) => {handleDomo(e, props.csrf)}}
             name="domoForm"
             action="/maker"
             method="POST"
@@ -50,7 +50,7 @@ const DomoList = function (props) {
 
     const domoNodes = props.domos.map(function (domo) {
         return (
-            <div key={domo._id} className="domo">
+            <div key={domo._id} className="domo" onClick={() => {ageDomo(domo.name, props.csrf)} }>
                 <img src="/assets/img/domoFace.jpeg" alt="domo face" className="domoFace" />
                 <h3 className="domoName"> Name: {domo.name} </h3>
                 <div className="domoDetails">
@@ -68,10 +68,10 @@ const DomoList = function (props) {
     );
 };
 
-const loadDomosFromServer = () => {
+const loadDomosFromServer = (csrf) => {
     sendAjax('GET', '/getDomos', null, (data) => {
         ReactDOM.render(
-            <DomoList domos={data.domos} />, document.querySelector("#domos")
+            <DomoList domos={data.domos} csrf={csrf} />, document.querySelector("#domos")
         );
     });
 };
@@ -82,11 +82,18 @@ const setup = function(csrf) {
     );
 
     ReactDOM.render(
-        <DomoList domos={[]} />, document.querySelector("#domos")
+        <DomoList domos={[]} csrf={csrf} />, document.querySelector("#domos")
     );
 
-    loadDomosFromServer();
+    loadDomosFromServer(csrf);
 }
+
+const ageDomo = (name, csrf) => {
+    sendAjax('POST', `/ageDomo?_csrf=${csrf}`, {name: name}, (data) => {
+
+        loadDomosFromServer(csrf);
+    });
+};
 
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {

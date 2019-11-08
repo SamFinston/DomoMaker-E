@@ -63,13 +63,13 @@ DomoSchema.statics.findByName = (ownerId, name, callback) => {
   return DomoModel.find(search).select('name age talent').exec(callback);
 };
 
-DomoSchema.statics.findHandsome = (ownerId, callback) => {
+DomoSchema.statics.incrementAge = (ownerId, name, callback) => {
   const search = {
     owner: convertId(ownerId),
-    talent: 'handsome',
+    name: name,
   };
 
-  return DomoModel.find(search).select('name age talent').exec(callback);
+  return DomoModel.findOne(search).exec(callback); 
 };
 
 DomoModel = mongoose.model('Domo', DomoSchema);
