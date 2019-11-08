@@ -14,13 +14,14 @@ const makerPage = (req, res) => {
 };
 
 const makeDomo = (req, res) => {
-  if (!req.body.name || !req.body.age) {
-    return res.status(400).json({ error: 'RAWR! Both name and age are required' });
+  if (!req.body.name || !req.body.age || !req.body.talent) {
+    return res.status(400).json({ error: 'RAWR! All fields are required' });
   }
 
   const domoData = {
     name: req.body.name,
     age: req.body.age,
+    talent: req.body.talent,
     owner: req.session.account._id,
   };
 
@@ -52,10 +53,46 @@ const getDomos = (request, response) => {
       return res.status(400).json({ error: 'An error has occured' });
     }
 
+    //console.dir(docs[0]._doc.name);
+
     return res.json({ domos: docs });
+  });
+};
+
+const getHandsome = (request, response) => {
+  const req = request;
+  const res = response;
+
+  return Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error has occured' });
+    }
+
+    //console.dir(docs[0]._doc.name);
+
+    return res.json({ domos: docs });
+  });
+};
+
+const ageDomo = () => {
+  const req = request;
+  const res = response;
+
+  return Domo.DomoModel.findByName(req.session.account._id, req.query.name, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error has occured' });
+    }
+
+    console.dir(docs[0]._doc);
+
+    return res.json({ domo: docs });
   });
 };
 
 module.exports.makerPage = makerPage;
 module.exports.getDomos = getDomos;
+module.exports.ageDomo = ageDomo;
+module.exports.getHandsome = getHandsome;
 module.exports.make = makeDomo;
