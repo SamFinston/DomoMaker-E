@@ -1,4 +1,6 @@
-const handleDomo = e => {
+"use strict";
+
+var handleDomo = function handleDomo(e) {
     e.preventDefault();
 
     $("#domoMessage").animate({ width: 'hide' }, 350);
@@ -16,7 +18,7 @@ const handleDomo = e => {
     return false;
 };
 
-const DomoForm = props => {
+var DomoForm = function DomoForm(props) {
     return React.createElement(
         "form",
         { id: "domoForm",
@@ -49,7 +51,7 @@ const DomoForm = props => {
     );
 };
 
-const DomoList = function (props) {
+var DomoList = function DomoList(props) {
     if (props.domos.length === 0) {
         return React.createElement(
             "div",
@@ -62,7 +64,7 @@ const DomoList = function (props) {
         );
     }
 
-    const domoNodes = props.domos.map(function (domo) {
+    var domoNodes = props.domos.map(function (domo) {
         return React.createElement(
             "div",
             { key: domo._id, className: "domo" },
@@ -102,13 +104,13 @@ const DomoList = function (props) {
     );
 };
 
-const loadDomosFromServer = () => {
-    sendAjax('GET', '/getDomos', null, data => {
+var loadDomosFromServer = function loadDomosFromServer() {
+    sendAjax('GET', '/getDomos', null, function (data) {
         ReactDOM.render(React.createElement(DomoList, { domos: data.domos }), document.querySelector("#domos"));
     });
 };
 
-const setup = function (csrf) {
+var setup = function setup(csrf) {
     ReactDOM.render(React.createElement(DomoForm, { csrf: csrf }), document.querySelector("#makeDomo"));
 
     ReactDOM.render(React.createElement(DomoList, { domos: [] }), document.querySelector("#domos"));
@@ -116,8 +118,8 @@ const setup = function (csrf) {
     loadDomosFromServer();
 };
 
-const getToken = () => {
-    sendAjax('GET', '/getToken', null, result => {
+var getToken = function getToken() {
+    sendAjax('GET', '/getToken', null, function (result) {
         setup(result.csrfToken);
     });
 };
@@ -125,17 +127,19 @@ const getToken = () => {
 $(document).ready(function () {
     getToken();
 });
-const handleError = message => {
+"use strict";
+
+var handleError = function handleError(message) {
     $("#errorMessage").text(message);
     $("#domoMessage").animate({ width: 'toggle' }, 350);
 };
 
-const redirect = response => {
+var redirect = function redirect(response) {
     $("#domoMessage").animate({ width: 'hide' }, 350);
     window.location = response.redirect;
 };
 
-const sendAjax = (type, action, data, success) => {
+var sendAjax = function sendAjax(type, action, data, success) {
     $.ajax({
         cache: false,
         type: type,
@@ -143,7 +147,7 @@ const sendAjax = (type, action, data, success) => {
         data: data,
         dataType: "json",
         success: success,
-        error: function (xhr, status, error) {
+        error: function error(xhr, status, _error) {
             var messageObj = JSON.parse(xhr.responseText);
             handleError(messageObj.error);
         }

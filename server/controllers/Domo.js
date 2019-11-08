@@ -53,7 +53,7 @@ const getDomos = (request, response) => {
       return res.status(400).json({ error: 'An error has occured' });
     }
 
-    //console.dir(docs[0]._doc.name);
+    // console.dir(docs[0]._doc.name);
 
     return res.json({ domos: docs });
   });
@@ -69,13 +69,13 @@ const getHandsome = (request, response) => {
       return res.status(400).json({ error: 'An error has occured' });
     }
 
-    //console.dir(docs[0]._doc.name);
+    // console.dir(docs[0]._doc.name);
 
     return res.json({ domos: docs });
   });
 };
 
-const ageDomo = () => {
+const ageDomo = (request, response) => {
   const req = request;
   const res = response;
 

@@ -32,8 +32,8 @@ const DomoSchema = new mongoose.Schema({
     default: Date.now,
   },
 
-  talent: { 
-    type: String, 
+  talent: {
+    type: String,
     required: true,
     default: 'none',
     trim: true,
@@ -57,7 +57,7 @@ DomoSchema.statics.findByOwner = (ownerId, callback) => {
 DomoSchema.statics.findByName = (ownerId, name, callback) => {
   const search = {
     owner: convertId(ownerId),
-    name: name,
+    name,
   };
 
   return DomoModel.find(search).select('name age talent').exec(callback);
@@ -66,7 +66,7 @@ DomoSchema.statics.findByName = (ownerId, name, callback) => {
 DomoSchema.statics.findHandsome = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
-    talent: "handsome",
+    talent: 'handsome',
   };
 
   return DomoModel.find(search).select('name age talent').exec(callback);
